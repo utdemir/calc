@@ -1,0 +1,9 @@
+2 + 2
+2 + 2 * 2
+2 milliliters
+2 milliliters in liters
+2 usd in nzd * 12
+2 usd to nzd * 12
+12 * 2 usd in nzd
+2000 usd / month * 12 months
+2000 usd per month * 12 mothts
