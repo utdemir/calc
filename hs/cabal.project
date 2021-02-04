@@ -1,2 +1,4 @@
 packages:
-  */*.cabal
+  calc-core/calc-core.cabal
+  calc-cli/calc-cli.cabal
+  calc-js/calc-js.cabal

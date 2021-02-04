@@ -1,6 +1,6 @@
 cabal-version:       2.4
 
-name:                calc-core
+name:                calc-js
 synopsis:            A fancy calculator with unit conversions and real-world data
 version:             0.0.1.0
 homepage:            https://github.com/utdemir/calc
@@ -26,33 +26,15 @@ common common-options
                       DerivingStrategies
   mixins:             base hiding (Prelude)
   build-depends:      base
-                    , relude
 
-library
+executable calc-js
   import:              common-options
   hs-source-dirs:      src
-  exposed-modules:     Prelude
-                     , Calc.Corpus
-                     , Calc.Tokenizer
-                     , Calc.Tokenizer.Types
-                     , Calc.Lexer
-                     , Calc.Lexer.Types
-                     , Calc.Parser
-                     , Calc.Eval
-                     , Calc.Parser.Types
-                     , Calc.Units
+  main-is:             Calc/JS.hs
   ghc-options:         -Wall -fno-warn-name-shadowing
-  build-depends:       bytestring
-                     , Decimal
-                     , Earley
-                     , containers
+  build-depends:       calc-core
                      , text
-
--- test-suite calc-tests
---   import:           common-options
---   type:             exitcode-stdio-1.0
---   hs-source-dirs:   test
---   main-is:          Main.hs
---   build-depends:    base >=4.11 && < 5
---                   , calc
---                   , hedgehog
+  if impl(ghcjs)
+    build-depends: ghcjs-base
+  else
+    build-depends: ghcjs-base-stub

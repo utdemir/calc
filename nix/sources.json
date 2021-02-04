@@ -1,0 +1,38 @@
+{
+    "nixpkgs": {
+        "branch": "nixpkgs-unstable",
+        "description": "Nix Packages collection",
+        "homepage": null,
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "d1f97a5eb5115289071d8449f26e7b92ce6b6709",
+        "sha256": "098rb747w4p5lxz74bj738bpjd4xjn0ahssjp9n8237dmmx3wg5p",
+        "type": "tarball",
+        "url": "https://github.com/nixos/nixpkgs/archive/d1f97a5eb5115289071d8449f26e7b92ce6b6709.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "nixpkgs-ghcjs": {
+        "branch": "d2a28d3b38e",
+        "description": "Nix Packages collection",
+        "homepage": "",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "d2a28d3b38ece08992a892c8d4b1dcb45bc2588a",
+        "sha256": "1d3iaaqsdf8a30d84g75q9y86a91k2vrw0mg1dbqnrzdbh5a2pay",
+        "type": "tarball",
+        "url": "https://github.com/nixos/nixpkgs/archive/d2a28d3b38ece08992a892c8d4b1dcb45bc2588a.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    },
+    "wasm-cross": {
+        "branch": "master",
+        "description": "Nix expressions for cross compiling to WebAssembly",
+        "homepage": null,
+        "owner": "WebGHC",
+        "repo": "wasm-cross",
+        "rev": "5f580e6739c82485b017d10b11bc9ec377150ef9",
+        "sha256": "1r1grh5swga8xkz3q39a05z91y5azqsp4mj9jb006ac3havg8nkw",
+        "type": "tarball",
+        "url": "https://github.com/WebGHC/wasm-cross/archive/5f580e6739c82485b017d10b11bc9ec377150ef9.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    }
+}

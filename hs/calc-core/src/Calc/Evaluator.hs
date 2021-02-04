@@ -1,6 +1,9 @@
-module Calc.Eval where
+module Calc.Evaluator (run) where
 
 import Calc.Parser.Types
+
+run :: Syn -> Either Text Syn
+run = eval
 
 eval :: Syn -> Either Text Syn
 eval (SynBinOp op lhs rhs) = do
