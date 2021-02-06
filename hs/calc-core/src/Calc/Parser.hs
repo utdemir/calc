@@ -1,6 +1,11 @@
 {-# LANGUAGE RecursiveDo #-}
 
-module Calc.Parser where
+module Calc.Parser
+  ( run,
+    Syn,
+    SynF,
+  )
+where
 
 import Calc.Lexer.Types
 import Calc.Parser.Types
@@ -19,32 +24,45 @@ grammar = mdo
     rule $
       asum
         [ term,
-          SynBinOp BinOpAdd
-            <$> (term <* token LexemePlus)
-            <*> term,
-          SynBinOp BinOpSub
-            <$> (term <* token LexemeMinus)
-            <*> term
+          Fix
+            <$> ( SynBinOp BinOpAdd
+                    <$> (term <* token LexemePlus)
+                    <*> expr
+                ),
+          Fix
+            <$> ( SynBinOp BinOpSub
+                    <$> (term <* token LexemeMinus)
+                    <*> expr
+                )
         ]
 
   term <-
     rule $
       asum
         [ factor,
-          SynBinOp BinOpMul
-            <$> (factor <* token LexemeTimes)
-            <*> factor,
-          SynBinOp BinOpDiv
-            <$> (factor <* token LexemeDiv)
-            <*> factor
+          Fix
+            <$> ( SynBinOp BinOpMul
+                    <$> (factor <* token LexemeTimes)
+                    <*> expr
+                ),
+          Fix
+            <$> ( SynBinOp BinOpDiv
+                    <$> (factor <* token LexemeDiv)
+                    <*> expr
+                )
         ]
 
   factor <-
     rule $
       asum
-        [ terminal (\case (LexemeNum i) -> Just (SynNum i); _ -> Nothing),
-          token LexemeMinus *> (SynNeg <$> factor),
-          token LexemeOpenParen *> expr <* token LexemeCloseParen
+        [ token LexemeMinus *> (Fix . SynNeg <$> factor),
+          token LexemeOpenParen *> expr <* token LexemeCloseParen,
+          Fix
+            <$> ( SynModulo
+                    <$> (factor <* token LexemeMod)
+                    <*> expr
+                ),
+          terminal (\case (LexemeNum i) -> Just (Fix $ SynNum i); _ -> Nothing)
         ]
 
   return expr

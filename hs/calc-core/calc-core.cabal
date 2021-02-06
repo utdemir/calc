@@ -24,6 +24,7 @@ common common-options
                       DeriveGeneric
                       DeriveFunctor
                       DerivingStrategies
+                      FlexibleInstances
   mixins:             base hiding (Prelude)
   build-depends:      base
                     , relude
@@ -48,12 +49,13 @@ library
                      , Earley
                      , containers
                      , text
+                     , recursion
 
--- test-suite calc-tests
---   import:           common-options
---   type:             exitcode-stdio-1.0
---   hs-source-dirs:   test
---   main-is:          Main.hs
---   build-depends:    base >=4.11 && < 5
---                   , calc
---                   , hedgehog
+test-suite calc-tests
+  import:           common-options
+  type:             exitcode-stdio-1.0
+  hs-source-dirs:   test
+  main-is:          Main.hs
+  build-depends:    base >=4.11 && < 5
+                  , calc-core
+                  , hedgehog

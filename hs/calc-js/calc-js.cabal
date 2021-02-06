@@ -34,6 +34,7 @@ executable calc-js
   ghc-options:         -Wall -fno-warn-name-shadowing
   build-depends:       calc-core
                      , text
+                     , aeson
   if impl(ghcjs)
     build-depends: ghcjs-base
   else

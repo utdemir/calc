@@ -1,30 +1,33 @@
 module Calc.Evaluator (run) where
 
 import Calc.Parser.Types
+import Control.Recursion (cata)
 
-run :: Syn -> Either Text Syn
-run = eval
+run :: Syn -> Syn
+run s =
+  let s' = cata simplify s
+   in if s == s'
+        then s'
+        else run s'
 
-eval :: Syn -> Either Text Syn
-eval (SynBinOp op lhs rhs) = do
-  lhs' <- eval lhs
-  rhs' <- eval rhs
-  case (lhs', rhs') of
-    (SynNum n1, SynNum n2) ->
-      Right . SynNum $
-        ( case op of
-            BinOpAdd -> (+)
-            BinOpSub -> (-)
-            BinOpMul -> (*)
-            BinOpDiv -> (/)
-        )
-          n1
-          n2
-    _ -> Left $ "cannot add: " <> show lhs' <> " and " <> show rhs'
-eval (SynNum n) = return $ SynNum n
-eval (SynNeg i) = do
-  i' <- eval i
-  case i' of
-    SynNum n -> return $ SynNum (negate n)
-    _ -> Left $ "cannot negate: " <> show i'
-eval other = Left $ "don't know what to do with: " <> show other
+simplify :: SynF Syn -> Syn
+simplify (SynNeg (Fix (SynNum n))) =
+  Fix $ SynNum (negate n)
+simplify (SynBinOp op (Fix (SynNum lhs)) (Fix (SynNum rhs))) =
+  Fix $ SynNum (binOpFun op lhs rhs)
+simplify syn@(SynModulo (Fix (SynNum lhs)) (Fix (SynNum rhs))) =
+  let lhs' = truncate @_ @Integer lhs
+      rhs' = truncate @_ @Integer rhs
+   in if (fromIntegral lhs', fromIntegral rhs') == (lhs, rhs)
+        then Fix $ SynNum (fromIntegral $ lhs' `mod` rhs')
+        else Fix syn
+simplify (SynImplMul l r) =
+  Fix $ SynBinOp BinOpMul l r
+simplify other =
+  Fix other
+
+binOpFun :: (Num a, Fractional a) => BinOp -> a -> a -> a
+binOpFun BinOpAdd = (+)
+binOpFun BinOpSub = (-)
+binOpFun BinOpMul = (*)
+binOpFun BinOpDiv = (/)

@@ -4,7 +4,7 @@
     - dist/
     - dist-newstyle/
   commands:
-    - ormolu -i \0
+    - ormolu -i \0 -o -XTypeApplications
 
 - patterns:
     - .*\.nix

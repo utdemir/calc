@@ -1,0 +1,5 @@
+result
+result-*
+
+# Local Netlify folder
+.netlify

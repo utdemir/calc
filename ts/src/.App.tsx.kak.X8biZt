@@ -1,0 +1,29 @@
+import React from 'react';
+import { useState, useEffect } from 'react';
+import './App.css';
+import { Input, Container, Center, Heading } from "@chakra-ui/react"
+
+function runCalc (input: string): string {
+  const f = (window as any).runCalcHs;
+  return f === undefined ? "" : JSON.stringify(f(input), null, 4)
+}
+
+function App() {
+  const [input, setInput] = useState("");
+
+const result = runCalc(input);
+
+  return (
+<Container>
+      <Center>
+        <Heading>Calc</Heading>
+      </Center>
+      <Input size="lg" onChange={(i) => setInput(i.target.value)} /> <br/>
+      <pre>
+      { result }
+      </pre>
+    </Container>
+  );
+}
+
+export default App

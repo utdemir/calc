@@ -56,9 +56,12 @@ run input =
                 Digit ->
                   [ Located
                       (start, end)
-                      (TokenNum
-                        . fromMaybe (error "invariant violation: cant read digits")
-                        . readMaybe @Decimal . toList $ fmap (\(_, _, c) -> c) ne)
+                      ( TokenNum
+                          . fromMaybe (error "invariant violation: cant read digits")
+                          . readMaybe @Decimal
+                          . toList
+                          $ fmap (\(_, _, c) -> c) ne
+                      )
                   ]
                 -- each symbol becomes their own TokenText
                 Symbol ->

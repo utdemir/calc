@@ -5,23 +5,25 @@ let
   gitignore = pkgs.nix-gitignore.gitignoreSourcePure [ ./.gitignore ];
 
   commonOverrides = hself: hsuper: {
-      "calc-core" =
-        hself.callCabal2nix
-          "calc-core"
-          (gitignore ./calc-core)
-          { };
-      "calc-cli" =
-        hself.callCabal2nix
-          "calc-cli"
-          (gitignore ./calc-cli)
-          { };
-      "calc-js" =
-        hself.callCabal2nix
-          "calc-js"
-          (gitignore ./calc-js)
-          { };
-      "ghcjs-base" =
-        hself.ghcjs-base-stub;
+    "calc-core" =
+      hself.callCabal2nix
+        "calc-core"
+        (gitignore ./calc-core)
+        { };
+    "calc-cli" =
+      hself.callCabal2nix
+        "calc-cli"
+        (gitignore ./calc-cli)
+        { };
+    "calc-js" =
+      hself.callCabal2nix
+        "calc-js"
+        (gitignore ./calc-js)
+        { };
+
+    # others
+    "ghcjs-base" =
+      hself.ghcjs-base-stub;
   };
 
   # native GHC
