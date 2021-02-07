@@ -40,7 +40,7 @@ library
                      , Calc.Lexer
                      , Calc.Lexer.Types
                      , Calc.Parser
-                     , Calc.Evaluator
+                     , Calc.Simplifier
                      , Calc.Parser.Types
                      , Calc.Units
   ghc-options:         -Wall -fno-warn-name-shadowing

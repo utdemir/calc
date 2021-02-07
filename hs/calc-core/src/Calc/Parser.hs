@@ -43,12 +43,12 @@ grammar = mdo
           Fix
             <$> ( SynBinOp BinOpMul
                     <$> (factor <* token LexemeTimes)
-                    <*> expr
+                    <*> term
                 ),
           Fix
             <$> ( SynBinOp BinOpDiv
                     <$> (factor <* token LexemeDiv)
-                    <*> expr
+                    <*> term
                 )
         ]
 
@@ -60,7 +60,7 @@ grammar = mdo
           Fix
             <$> ( SynModulo
                     <$> (factor <* token LexemeMod)
-                    <*> expr
+                    <*> factor
                 ),
           terminal (\case (LexemeNum i) -> Just (Fix $ SynNum i); _ -> Nothing)
         ]

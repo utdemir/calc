@@ -1,8 +1,1 @@
-let
-sources = import ../nix/sources.nix;
-pkgs = import sources.nixpkgs {};
-in
-pkgs.mkShell {
-  name = "calc-shell";
-  buildInputs = [ pkgs.yarn ];
-}
+(import ./default.nix).shell

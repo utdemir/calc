@@ -7,7 +7,7 @@ module Calc
   )
 where
 
-import qualified Calc.Evaluator as Evaluator
+import qualified Calc.Simplifier as Simplifier
 import qualified Calc.Lexer as Lexer
 import qualified Calc.Parser as Parser
 import qualified Calc.Tokenizer as Tokenizer
@@ -25,5 +25,5 @@ run txt = do
   let tokens = Tokenizer.run txt & map Tokenizer.locatedVal
   lexemes <- Lexer.run tokens
   parse <- Parser.run lexemes
-  let result = Evaluator.run parse
+  let result = Simplifier.run parse
   return (Result txt lexemes parse result)
