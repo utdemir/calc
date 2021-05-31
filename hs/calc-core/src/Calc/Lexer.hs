@@ -7,19 +7,19 @@ where
 import Calc.Corpus (Corpus)
 import qualified Calc.Corpus as Corpus
 import Calc.Lexer.Types (Lexeme (..))
-import Calc.Tokenizer (Token (..), tokens)
+import Calc.Tokenizer (Token (..))
 
 builtins :: Corpus
 builtins =
   mconcat
-    [ Corpus.singleton LexemePlus (tokens "+"),
-      Corpus.singleton LexemeMinus (tokens "-"),
-      Corpus.singleton LexemeTimes (tokens "*"),
-      Corpus.singleton LexemeDiv (tokens "/"),
-      Corpus.singleton LexemeMod (tokens "mod"),
-      Corpus.singleton LexemeMod (tokens "%"),
-      Corpus.singleton LexemeOpenParen (tokens "("),
-      Corpus.singleton LexemeCloseParen (tokens ")")
+    [ Corpus.singleton LexemePlus (TokenText "+" :| []),
+      Corpus.singleton LexemeMinus (TokenText "-" :| []),
+      Corpus.singleton LexemeTimes (TokenText "*" :| []),
+      Corpus.singleton LexemeDiv (TokenText "/" :| []),
+      Corpus.singleton LexemeMod (TokenText "mod" :| []),
+      Corpus.singleton LexemeMod (TokenText "%" :| []),
+      Corpus.singleton LexemeOpenParen (TokenText "(" :| []),
+      Corpus.singleton LexemeCloseParen (TokenText ")" :| [])
     ]
 
 corpus :: Corpus

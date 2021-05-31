@@ -9,7 +9,6 @@ where
 
 import Calc.Lexer.Types
 import Calc.Tokenizer
-import Calc.Units
 import qualified Data.Map as Map
 import qualified Data.Set as Set
 
@@ -33,14 +32,6 @@ singleton l t =
     (Map.singleton t (Set.singleton l))
     (length t)
 
-siCorpus :: Corpus
-siCorpus =
-  mconcat
-    [ foldMap
-        (singleton (LexemeUnit $ Unit QuantityLength "metre"))
-        [tokens "metre", tokens "meter", tokens "metres", tokens "meters", tokens "m"]
-    ]
-
 lookup :: NonEmpty Token -> Corpus -> Set Lexeme
 lookup ts c =
   cContents c
@@ -63,4 +54,4 @@ lookupPrefixes ts corpus =
 default_ :: Corpus
 default_ =
   mconcat
-    [siCorpus]
+    []

@@ -6,7 +6,6 @@ module Main where
 import qualified Calc
 import qualified Calc.Lexer.Types as Lexer
 import qualified Calc.Parser.Types as Parser
-import qualified Calc.Units as Units
 import Data.Aeson
 import GHCJS.Foreign.Callback
 import GHCJS.Marshal
@@ -49,8 +48,8 @@ resultToValue Calc.Result {..} =
     lexemeToValue Lexer.LexemeMod = toJSON ("mod" :: Text)
     lexemeToValue (Lexer.LexemeUnit t) = unitToValue t
 
-    unitToValue :: Units.Unit -> Value
-    unitToValue (Units.Unit _ t) = toJSON t
+    unitToValue :: Lexer.Unit -> Value
+    unitToValue (Lexer.Unit t) = toJSON t
 
     synToValue :: Parser.Syn -> Value
     synToValue (Parser.Fix (Parser.SynBinOp op l r)) =

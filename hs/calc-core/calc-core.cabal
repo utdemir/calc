@@ -25,6 +25,10 @@ common common-options
                       DeriveFunctor
                       DerivingStrategies
                       FlexibleInstances
+                      DeriveLift
+                      StandaloneDeriving
+                      DataKinds
+                      KindSignatures
   mixins:             base hiding (Prelude)
   build-depends:      base
                     , relude
@@ -42,7 +46,10 @@ library
                      , Calc.Parser
                      , Calc.Simplifier
                      , Calc.Parser.Types
-                     , Calc.Units
+                     , Calc.Unit
+                     , Calc.Unit.Types
+                     , Calc.Unit.Definition
+                     , Data.Decimal.Extra
   ghc-options:         -Wall -fno-warn-name-shadowing
   build-depends:       bytestring
                      , Decimal
@@ -50,6 +57,7 @@ library
                      , containers
                      , text
                      , recursion
+                     , template-haskell
 
 test-suite calc-tests
   import:           common-options

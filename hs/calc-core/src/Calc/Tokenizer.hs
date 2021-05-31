@@ -2,34 +2,20 @@ module Calc.Tokenizer
   ( Located (..),
     Token (..),
     run,
-    Tokens,
-    tokens,
   )
 where
 
 import Calc.Tokenizer.Types
 import qualified Data.Char as Char
 import Data.List (groupBy)
-import qualified Data.List.NonEmpty as NonEmpty
 import qualified Data.Text as Text
-
-newtype Tokens = Tokens {tokens :: NonEmpty Token}
-
-instance IsString Tokens where
-  fromString =
-    Tokens
-      . fromMaybe (pure TokenBlank)
-      . NonEmpty.nonEmpty
-      . map locatedVal
-      . run
-      . toText
 
 data CharTy
   = Letter Int
   | Space
   | Symbol
   | Digit
-  deriving (Eq)
+  deriving stock (Eq)
 
 run :: Text -> [Located Token]
 run input =

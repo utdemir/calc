@@ -14,10 +14,21 @@ let
     "yarn2nix --template ${./package.json} > $out";
 
   nodeModules =
-    let deps = yarn2nix.nixLib.buildNodeDeps (pkgs.callPackage npmDepsNix {});
+    let deps = yarn2nix.nixLib.buildNodeDeps (
+        pkgs.lib.composeExtensions
+          (pkgs.callPackage npmDepsNix {})
+          (se: su: {
+            # "html-webpack-plugin@4.5.0" = {
+            #   key = { scope = ""; name = "html-webpack-plugin"; };
+            #   drv = su."html-webpack-plugin@4.5.0".drv.overrideAttrs (old: {
+            #     installPhase = builtins.trace (pkgs.lib.attrNames old) ''exit 1'';
+            #   });
+            # };
+          })
+        );
         pkg = yarn2nix.nixLib.callTemplate npmPackageNix deps;
     in  yarn2nix.nixLib.linkNodeDeps {
-          name = "calc-web-node_modules";
+          name = "calc-web";
           dependencies = pkg.nodeBuildInputs;
         };
 
@@ -27,7 +38,11 @@ let
     src = gitignore ./.;
     buildPhase = ''
       export HOME=$(mktemp -d)
+
+      echo "Using: ${nodeModules}"
+      export NODE_PATH=${nodeModules}
       ln -s ${nodeModules} node_modules
+
       yarn --offline build
     '';
   };

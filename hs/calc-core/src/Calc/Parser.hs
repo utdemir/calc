@@ -26,13 +26,13 @@ grammar = mdo
         [ term,
           Fix
             <$> ( SynBinOp BinOpAdd
-                    <$> (term <* token LexemePlus)
-                    <*> expr
+                    <$> (expr <* token LexemePlus)
+                    <*> term
                 ),
           Fix
             <$> ( SynBinOp BinOpSub
-                    <$> (term <* token LexemeMinus)
-                    <*> expr
+                    <$> (expr <* token LexemeMinus)
+                    <*> term
                 )
         ]
 
@@ -42,13 +42,13 @@ grammar = mdo
         [ factor,
           Fix
             <$> ( SynBinOp BinOpMul
-                    <$> (factor <* token LexemeTimes)
-                    <*> term
+                    <$> (term <* token LexemeTimes)
+                    <*> factor
                 ),
           Fix
             <$> ( SynBinOp BinOpDiv
-                    <$> (factor <* token LexemeDiv)
-                    <*> term
+                    <$> (term <* token LexemeDiv)
+                    <*> factor
                 )
         ]
 

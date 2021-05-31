@@ -4,8 +4,6 @@ module Calc.Parser.Types
   ( SynF (..),
     Syn,
     BinOp (..),
-    Unit (..),
-    Quantity (..),
     Dimension (..),
     Dimensional (..),
 
@@ -14,45 +12,46 @@ module Calc.Parser.Types
   )
 where
 
-import Calc.Units
+import Calc.Unit.Types
 import qualified Control.Recursion as Recursion
 import qualified GHC.Show
-
-data Dimension
-  = DimensionOne
-  | DimensionSimple Unit
-  | DimensionMul Dimension Dimension
-  | DimensionDiv Dimension Dimension
-  | DimensionPow Dimension Integer
-  deriving (Show, Eq)
-
-data Dimensional
-  = Dimensional Decimal Dimension
-  deriving (Show, Eq)
 
 data BinOp
   = BinOpAdd
   | BinOpSub
   | BinOpMul
   | BinOpDiv
-  deriving (Show, Eq)
+  deriving (Eq)
+
+instance Show BinOp where
+  show = \case
+    BinOpAdd -> "+"
+    BinOpSub -> "-"
+    BinOpMul -> "*"
+    BinOpDiv -> "/"
 
 data SynF f
   = SynNum Decimal
   | SynNeg f
   | SynBinOp BinOp f f
   | SynImplMul f f
-  | SynDimension Dimension
-  | SynDimensional Dimensional
-  | SynConv f f
-  | SynFactorial f
-  | SynModulo f f
+  | --  | SynDimension Dimension
+    --  | SynDimensional Dimensional
+    --  | SynConv f f
+    --  | SynFactorial f
+    SynModulo f f
   deriving (Show, Eq, Functor)
 
 type Syn = Recursion.Fix SynF
 
-instance Eq Syn where
-  Recursion.Fix s1 == Recursion.Fix s2 = s1 == s2
+deriving instance Eq Syn
 
 instance Show Syn where
-  show (Recursion.Fix s1) = "(" ++ show s1 ++ ")"
+  show (Recursion.Fix syn) = case syn of
+    SynNum d -> show d
+    SynNeg d -> parens $ "-" ++ show d
+    SynBinOp op l r -> parens $ intercalate " " [show l, show op, show r]
+    SynImplMul l r -> parens (show l ++ " " ++ show r)
+    SynModulo l r -> parens (show l ++ " mod " ++ show r)
+    where
+      parens inner = "(" ++ inner ++ ")"

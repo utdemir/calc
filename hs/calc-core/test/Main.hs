@@ -19,24 +19,27 @@ mkTest input expected = withTests 1 . property $ do
 examples :: Group
 examples =
   [ ( "2+2",
-      "(SynNum 4)"
+      "4"
     ),
     ( "2+2*2",
-      "(SynNum 6)"
+      "6"
     ),
     ( "5 mod 2",
-      "(SynNum 1)"
+      "1"
     ),
     ( "5.2 mod 2",
-      "(SynModulo (SynNum 5.2) (SynNum 2))"
+      "(5.2 mod 2)"
     ),
     ( "1 + 1 mod 1",
-      "(SynNum 1)"
+      "1"
+    ),
+    ( "1 - 1 - 1",
+      "-1"
     )
   ]
     & map
       ( \(input, expected) ->
-          (fromString . toString $ expected, mkTest input expected)
+          (fromString . toString $ "'" <> input <> "'", mkTest input expected)
       )
     & Group "examples"
 

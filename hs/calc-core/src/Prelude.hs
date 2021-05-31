@@ -1,8 +1,10 @@
 module Prelude
   ( module Relude,
-    module Data.Decimal,
+    module Data.Decimal.Extra,
+    Lift()
   )
 where
 
-import Data.Decimal
+import Data.Decimal.Extra
 import Relude
+import Language.Haskell.TH.Syntax (Lift)

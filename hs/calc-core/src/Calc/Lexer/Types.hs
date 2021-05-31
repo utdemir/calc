@@ -1,9 +1,10 @@
 module Calc.Lexer.Types
   ( Lexeme (..),
+    Unit (..),
   )
 where
 
-import Calc.Units
+import Calc.Unit.Types
 
 data Lexeme
   = LexemeNum Decimal
@@ -15,5 +16,5 @@ data Lexeme
   | LexemeTimes
   | LexemeDiv
   | LexemeMod
-  | LexemeUnit Unit
-  deriving (Show, Eq, Ord)
+  | LexemeUnit UnitCanonicalName
+  deriving stock (Show, Eq, Ord, Lift)

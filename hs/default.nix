@@ -20,15 +20,15 @@ let
         "calc-js"
         (gitignore ./calc-js)
         { };
-
-    # others
-    "ghcjs-base" =
-      hself.ghcjs-base-stub;
   };
 
   # native GHC
   nativeHaskellOverrides = {
-    overrides = commonOverrides;
+    overrides = hself: hsuper:
+      commonOverrides hself hsuper // {
+        "ghcjs-base" =
+          hself.ghcjs-base-stub;
+      };
   };
   nativeHaskellPackages = pkgs.haskell.packages.ghc8103.override nativeHaskellOverrides;
 
@@ -61,6 +61,11 @@ let
             url = "https://github.com/ghcjs/ghcjs-base/commit/051c81c4f1b1f3af3b4b8d09d6538fc8e632e1b1.patch";
             sha256 = "sha256-ycGIkdKXFDTHR4sCRNBKSvvEM1IhylR3mys6JxPnUr8=";
           });
+        "text" = hself.callHackageDirect {
+          pkg = "text";
+          ver = "1.2.4.1";
+          sha256 = "sha256-nhjOM2cSFxyl7O9k58shLwT2dNEGmJUPL0qW6Qkr99c=";
+        } {};
 
         # don't run tests on ghcjs since quickcheck is hard to compile.
         mkDerivation = expr:
@@ -78,6 +83,10 @@ let
       # --externs ${calc-js-orig}/bin/calc-js.jsexe/all.js.externs \
       # --compilation_level advanced \
       # --jscomp_off="*" \
+
+    # ensure that the code doesn't think we're running in nodejs when "process" is
+    # defined for some reason (parceljs does that).
+    sed -i 's/"undefined"!==typeof process/false/g' "$out/calc.js"
   '';
 in
 {
